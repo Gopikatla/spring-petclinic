@@ -248,4 +248,15 @@ class OwnerControllerTests {
 			.andExpect(flash().attributeExists("error"));
 	}
 
+	@Test
+	void firstNameLengthCheck () throws Exception {
+		mockMvc.perform(post("/owners/new").param("firstName", "A")
+			.param("lastName" , "Gum")
+			.param("address" , "121 street nama")
+			.param("city", "manavur")
+			.param("telephone" , "0987654321"))
+			.andExpect(status().isOk())
+			.andExpect(model().attributeHasFieldErrors("owner", "firstName"));
+	}
+
 }
