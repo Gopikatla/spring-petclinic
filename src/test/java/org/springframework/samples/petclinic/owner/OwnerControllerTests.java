@@ -224,7 +224,7 @@ class OwnerControllerTests {
 			.andExpect(model().attribute("owner", hasProperty("telephone", is("6085551023"))))
 			.andExpect(model().attribute("owner", hasProperty("pets", not(empty()))))
 			.andExpect(model().attribute("owner",
-					hasProperty("pets", hasItem(hasProperty("visits", hasSize(greaterThan(0)))))))
+				hasProperty("pets", hasItem(hasProperty("visits", hasSize(greaterThan(0)))))))
 			.andExpect(view().name("owners/ownerDetails"));
 	}
 
@@ -246,6 +246,14 @@ class OwnerControllerTests {
 			.andExpect(status().is3xxRedirection())
 			.andExpect(redirectedUrl("/owners/" + pathOwnerId + "/edit"))
 			.andExpect(flash().attributeExists("error"));
+	}
+
+	@Test
+	void showOwnerNotFound() throws Exception {
+		when(owners.findById(9999)).thenReturn(Optional.empty());
+		mockMvc.perform(get("/owners/{ownerId}", 9999))
+			.andExpect(status().is3xxRedirection())
+			.andExpect(redirectedUrl("/owners/find"));
 	}
 
 }
