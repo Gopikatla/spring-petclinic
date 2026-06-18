@@ -115,6 +115,22 @@ class VetControllerTests {
 			.andExpect(jsonPath("$.vetList[1].firstName").value("Helen"));
 
 	}
+	@Test
+	void showJamesHasNoSpecilities () throws Exception {
+		mockMvc.perform(get("/vets"))
+			.andExpect(status().isOk())
+			.andExpect(jsonPath("$.vetList[1].id").value(2));
+	}
+
+	@Test
+	void showCurrentPageandTotalPagesShouldBeOne() throws Exception {
+		 mockMvc.perform(get("/vets.html").param("page", "1"))
+			 .andExpect(status().isOk())
+			 .andExpect(model().attribute("currentPage", 1))
+			 .andExpect(model().attribute("totalPages", 1))
+			 .andExpect(model().attribute("totalItems", 2l))
+			 .andExpect(view().name("vets/vetList"));
+	}
 
 }
 
