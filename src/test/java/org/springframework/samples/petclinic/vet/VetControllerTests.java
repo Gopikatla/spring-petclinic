@@ -106,6 +106,15 @@ class VetControllerTests {
 
 
 	}
+	@Test
+	void vetsJsonEndpointsReturnTwoVets() throws Exception {
+		mockMvc.perform(get("/vets"))
+			.andExpect(status().isOk())
+			.andExpect(jsonPath("$.vetList", hasSize(2)))
+			.andExpect(jsonPath("$.vetList[0].firstName").value("James"))
+			.andExpect(jsonPath("$.vetList[1].firstName").value("Helen"));
+
+	}
 
 }
 
