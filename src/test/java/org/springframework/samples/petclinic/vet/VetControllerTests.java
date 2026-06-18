@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.springframework.samples.petclinic.vet;
 
 import org.assertj.core.util.Lists;
@@ -35,6 +34,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.hamcrest.Matchers.*;
 
 /**
  * Test class for the {@link VetController}
@@ -97,4 +97,15 @@ class VetControllerTests {
 			.andExpect(jsonPath("$.vetList[0].id").value(1));
 	}
 
+	@Test
+	void vetListHasNameHelen() throws Exception {
+		mockMvc.perform(get("/vets.html?page=1"))
+			.andExpect(status().isOk())
+			.andExpect(model().attributeExists("listVets"))
+			.andExpect(model().attribute("listVets", hasItem(allOf(hasProperty("firstName", is("Helen")),hasProperty("specialties", hasItem(hasProperty("name", is("radiology"))))))));
+
+
+	}
+
 }
+
