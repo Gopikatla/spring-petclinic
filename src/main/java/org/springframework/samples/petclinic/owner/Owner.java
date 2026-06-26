@@ -19,6 +19,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import jakarta.validation.constraints.Size;
+import org.aspectj.bridge.Message;
 import org.springframework.core.style.ToStringCreator;
 import org.springframework.samples.petclinic.model.Person;
 import org.springframework.util.Assert;
@@ -54,6 +56,7 @@ public class Owner extends Person {
 
 	@Column
 	@NotBlank
+	@Size(min = 2, message = "Must be Greater than 1 character")
 	private String city;
 
 	@Column

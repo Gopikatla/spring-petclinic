@@ -248,4 +248,14 @@ class OwnerControllerTests {
 			.andExpect(flash().attributeExists("error"));
 	}
 
+	@Test
+	void cityHasErrors() throws Exception {
+		mockMvc
+			.perform(post("/owners/new").param("firstName", "Joe").param("lastName", "Bloggs").param("address", "L123 heye rd").param("city", "A").param("telephone", "0123456789"))
+			.andExpect(status().isOk())
+			.andExpect(model().attributeHasErrors("owner"))
+			.andExpect(model().attributeHasFieldErrors("owner", "city"))
+			.andExpect(view().name("owners/createOrUpdateOwnerForm"));
+	}
+
 }
